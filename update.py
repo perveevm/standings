@@ -29,8 +29,8 @@ def update_spreadsheet(data):
     ).execute()
 
 
-users = get_spreadsheet("'Параметры'!A1:D100")[0]['values'][1:]
-spreadsheet = get_spreadsheet("'Результаты'!A1:D100")
+users = get_spreadsheet("'Параметры'!A1:G100")[0]['values'][1:]
+spreadsheet = get_spreadsheet("'Результаты'!A1:G100")
 header = spreadsheet[0]['values'][0]
 new_data = []
 
