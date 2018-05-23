@@ -1,10 +1,10 @@
 import httplib2
 import apiclient.discovery
 import timus_api
+import codeforces_api
 from oauth2client.service_account import ServiceAccountCredentials
 
 SPREADSHEET_FILE = '/Users/mihail/PycharmProjects/timus_standings/spreadsheetId.cfg'
-ADMINS_FILE = '/Users/mihail/PycharmProjects/timus_standings/admins.cfg'
 CREDENTIALS_FILE = '/Users/mihail/PycharmProjects/timus_standings/Timus results-52e7878b6481.json'
 credentials = ServiceAccountCredentials.from_json_keyfile_name(CREDENTIALS_FILE,
                                                                ['https://www.googleapis.com/auth/spreadsheets',
@@ -35,7 +35,7 @@ header = spreadsheet[0]['values'][0]
 new_data = []
 
 for user in users:
-    new_data.append([user[0]] + timus_api.get_info(user[1]))
+    new_data.append([user[0]] + timus_api.get_info(user[1]) + codeforces_api.get_info(user[1]))
 
 new_data.sort(key=lambda a: -int(a[1]))
 new_data = [header] + new_data
