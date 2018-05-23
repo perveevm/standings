@@ -35,7 +35,7 @@ header = spreadsheet[0]['values'][0]
 new_data = []
 
 for user in users:
-    new_data.append([user[0]] + timus_api.get_info(user[1]) + codeforces_api.get_info(user[1]))
+    new_data.append([user[0]] + timus_api.get_info(user[1]) + codeforces_api.get_info(user[2]))
 
 new_data.sort(key=lambda a: -int(a[1]))
 new_data = [header] + new_data

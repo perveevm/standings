@@ -56,7 +56,7 @@ def get_info(handle):
     solved_today = len(today)
 
     res = list()
-    res.append(str(rating))
     res.append(str(solved))
+    res.append(str(rating))
     res.append(str(solved_today))
     return res
