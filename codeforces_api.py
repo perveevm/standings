@@ -60,3 +60,24 @@ def get_info(handle):
     res.append(str(rating))
     res.append(str(solved_today))
     return res
+
+
+def get_contests():
+    data = {'apiKey': key, 'time': str(int(time.time())), 'gym': 'false', 'lang': 'ru'}
+    apiSig = genApiSig(data, 'contest.list')
+    data['apiSig'] = apiSig
+    contests = json.loads(urllib.request.urlopen('http://codeforces.com/api/contest.list?' + urlencode(data)).read().decode())
+
+    need_contests = list()
+    for i in contests['result']:
+        if i['phase'] == 'BEFORE':
+            need_contests.append(i)
+
+    res = list()
+    for i in need_contests[::-1]:
+        cur_contest = list()
+        cur_contest.append(i['name'])
+        cur_contest.append(datetime.datetime.fromtimestamp(int(i['startTimeSeconds'])).strftime('%Y-%m-%d %H:%M:%S'))
+        cur_contest.append(time.strftime('%H:%M', time.gmtime(i['durationSeconds'])))
+        res.append(cur_contest)
+    return res

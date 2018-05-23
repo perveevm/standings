@@ -31,14 +31,21 @@ def update_spreadsheet(data):
 
 users = get_spreadsheet("'Параметры'!A1:G100")[0]['values'][1:]
 spreadsheet = get_spreadsheet("'Результаты'!A1:G100")
-header = spreadsheet[0]['values'][0]
+header1 = spreadsheet[0]['values'][0]
+header2 = spreadsheet[0]['values'][len(users) + 2]
+header3 = spreadsheet[0]['values'][len(users) + 3]
 new_data = []
 
 for user in users:
     new_data.append([user[0]] + timus_api.get_info(user[1]) + codeforces_api.get_info(user[2]))
 
 new_data.sort(key=lambda a: -int(a[1]))
-new_data = [header] + new_data
+new_data = [header1] + new_data + [[' ']] + [header2] + [header3]
+
+contests = codeforces_api.get_contests()
+for i in contests:
+    new_data += [i]
+
 spreadsheet[0]['values'] = new_data
 
 update_spreadsheet(spreadsheet)
