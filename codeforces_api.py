@@ -47,11 +47,12 @@ def get_info(handle):
         if i['verdict'] == 'OK':
             submission_date = datetime.datetime.fromtimestamp(int(i['creationTimeSeconds']))
             cur_date = datetime.datetime.now()
+            id = str(i['problem']['contestId']) + i['problem']['index']
             if submission_date.year == cur_date.year and submission_date.month == cur_date.month and submission_date.day == cur_date.day:
-                if i['id'] not in today:
-                    today.append(i['id'])
-            if i['id'] not in tasks:
-                tasks.append(i['id'])
+                if id not in today:
+                    today.append(id)
+            if id not in tasks:
+                tasks.append(id)
     solved = len(tasks)
     solved_today = len(today)
 
