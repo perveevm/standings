@@ -31,10 +31,13 @@ def get_month(cur_month):
 
 
 def is_today(cur_date):
-    day, month, year = cur_date.split()
+    day, month, year = cur_date[0].split()
+    hour, minute, second = cur_date[1].split(':')
     cur_date = datetime.datetime.now()
+    submission_time = datetime.datetime(int(year), get_month(month), int(day), int(hour), int(minute), int(second))
+    submission_time += datetime.timedelta(hours=-2)
+    day, month, year = submission_time.day, submission_time.month, submission_time.year
     cur_day, cur_month, cur_year = cur_date.day, cur_date.month, cur_date.year
-    month = get_month(month)
     if int(day) == int(cur_day) and int(month) == int(cur_month) and int(year) == int(cur_year):
         return True
     else:
@@ -70,9 +73,10 @@ def get_info(judge_id):
     submission_time = []
 
     for i in submissions_even:
-        submission_time.append(i.contents[1].contents[2].contents[0])
+        print(i.contents[1].contents[0].contents[0])
+        submission_time.append([i.contents[1].contents[2].contents[0], i.contents[1].contents[0].contents[0]])
     for i in submissions_odd:
-        submission_time.append(i.contents[1].contents[2].contents[0])
+        submission_time.append([i.contents[1].contents[2].contents[0], i.contents[1].contents[0].contents[0]])
 
     for i in submission_time:
         if is_today(i):
