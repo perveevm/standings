@@ -73,7 +73,6 @@ def get_info(judge_id):
     submission_time = []
 
     for i in submissions_even:
-        print(i.contents[1].contents[0].contents[0])
         submission_time.append([i.contents[1].contents[2].contents[0], i.contents[1].contents[0].contents[0]])
     for i in submissions_odd:
         submission_time.append([i.contents[1].contents[2].contents[0], i.contents[1].contents[0].contents[0]])
