@@ -91,4 +91,3 @@ def get_info(judge_id):
     res.append(rating)
     res.append(str(tasks_today))
     return res
-ßßßß
