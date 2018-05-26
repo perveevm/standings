@@ -72,16 +72,23 @@ def get_info(judge_id):
 
     submission_time = []
 
+    today = []
+
     for i in submissions_even:
-        submission_time.append([i.contents[1].contents[2].contents[0], i.contents[1].contents[0].contents[0]])
+        num = i.contents[3].contents[0].contents[0]
+        submission_time.append([i.contents[1].contents[2].contents[0], i.contents[1].contents[0].contents[0], num])
     for i in submissions_odd:
-        submission_time.append([i.contents[1].contents[2].contents[0], i.contents[1].contents[0].contents[0]])
+        num = i.contents[3].contents[0].contents[0]
+        submission_time.append([i.contents[1].contents[2].contents[0], i.contents[1].contents[0].contents[0], num])
 
     for i in submission_time:
-        if is_today(i):
-            tasks_today += 1
+        if is_today(i) and i[2] not in today:
+            today.append(i[2])
+
+    tasks_today = len(today)
 
     res.append(tasks)
     res.append(rating)
     res.append(str(tasks_today))
     return res
+ßßßß
