@@ -39,7 +39,7 @@ new_data = []
 for user in users:
     new_data.append([user[0]] + timus_api.get_info(user[1]) + codeforces_api.get_info(user[2]))
 
-new_data.sort(key=lambda a: -int(a[1] + a[4]))
+new_data.sort(key=lambda a: -int(int(a[1]) + int(a[4])))
 new_data = [header1] + new_data + [[' ']] + [header2] + [header3]
 
 contests = codeforces_api.get_contests()
