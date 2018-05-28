@@ -81,13 +81,18 @@ def get_info(judge_id, solved_str):
         num = i.contents[3].contents[0].contents[0]
         submission_time.append([i.contents[1].contents[2].contents[0], i.contents[1].contents[0].contents[0], num])
 
+    solved_today = list()
+
     for i in submission_time:
         if not i[2].isdigit():
             continue
         if i[2] not in solved:
-            solved.append(i[2])
             if is_today(i):
-                tasks_today += 1
+                if i[2] not in solved_today:
+                    tasks_today += 1
+                    solved_today.append(i[2])
+            else:
+                solved.append(i[2])
 
     solved_str = ' '.join(str(i) for i in solved)
 

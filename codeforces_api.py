@@ -44,15 +44,21 @@ def get_info(handle, solved_str):
 
     rating = user_info['result'][0]['rating']
     today = 0
+
+    solved_today = list()
+
     for i in submissions['result']:
         if i['verdict'] == 'OK':
             submission_date = datetime.datetime.fromtimestamp(int(i['creationTimeSeconds']))
             cur_date = datetime.datetime.now()
             id = str(i['problem']['contestId']) + i['problem']['index']
             if id not in solved:
-                solved.append(id)
                 if submission_date.year == cur_date.year and submission_date.month == cur_date.month and submission_date.day == cur_date.day:
-                    today += 1
+                    if id not in solved_today:
+                        today += 1
+                        solved_today.append(id)
+                else:
+                    solved.append(id)
 
     solved_all = len(solved)
 
