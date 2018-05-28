@@ -29,7 +29,9 @@ def genApiSig(data, method):
     return curRand + sha512(apiSig.encode()).hexdigest()
 
 
-def get_info(handle):
+def get_info(handle, solved_str):
+    solved = solved_str.split()
+
     data = {'apiKey': key, 'time': str(int(time.time())), 'handles': handle, 'lang': 'ru'}
     apiSig = genApiSig(data, 'user.info')
     data['apiSig'] = apiSig
@@ -41,26 +43,27 @@ def get_info(handle):
     submissions = json.loads(urllib.request.urlopen('http://codeforces.com/api/user.status?' + urlencode(data)).read().decode())
 
     rating = user_info['result'][0]['rating']
-    tasks = list()
-    today = list()
+    today = 0
     for i in submissions['result']:
         if i['verdict'] == 'OK':
             submission_date = datetime.datetime.fromtimestamp(int(i['creationTimeSeconds']))
             cur_date = datetime.datetime.now()
             id = str(i['problem']['contestId']) + i['problem']['index']
-            if submission_date.year == cur_date.year and submission_date.month == cur_date.month and submission_date.day == cur_date.day:
-                if id not in today:
-                    today.append(id)
-            if id not in tasks:
-                tasks.append(id)
-    solved = len(tasks)
-    solved_today = len(today)
+            if id not in solved:
+                solved.append(id)
+                if submission_date.year == cur_date.year and submission_date.month == cur_date.month and submission_date.day == cur_date.day:
+                    today += 1
+
+    solved_all = len(solved)
 
     res = list()
-    res.append(str(solved))
+    res.append(str(solved_all))
     res.append(str(rating))
-    res.append(str(solved_today))
-    return res
+    res.append(str(today))
+
+    solved_str = ' '.join(str(i) for i in solved)
+
+    return res, solved_str
 
 
 def get_contests():

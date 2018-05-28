@@ -44,7 +44,9 @@ def is_today(cur_date):
         return False
 
 
-def get_info(judge_id):
+def get_info(judge_id, solved_str):
+    solved = solved_str.split()
+
     url = 'http://acm.timus.ru/author.aspx?id=' + judge_id + '&locale=ru'
     html = urllib.request.urlopen(url).read().decode()
     soup = BeautifulSoup(html, 'html.parser')
@@ -72,8 +74,6 @@ def get_info(judge_id):
 
     submission_time = []
 
-    today = []
-
     for i in submissions_even:
         num = i.contents[3].contents[0].contents[0]
         submission_time.append([i.contents[1].contents[2].contents[0], i.contents[1].contents[0].contents[0], num])
@@ -82,12 +82,16 @@ def get_info(judge_id):
         submission_time.append([i.contents[1].contents[2].contents[0], i.contents[1].contents[0].contents[0], num])
 
     for i in submission_time:
-        if is_today(i) and i[2] not in today:
-            today.append(i[2])
+        if not i[2].isdigit():
+            continue
+        if i[2] not in solved:
+            solved.append(i[2])
+            if is_today(i):
+                tasks_today += 1
 
-    tasks_today = len(today)
+    solved_str = ' '.join(str(i) for i in solved)
 
     res.append(tasks)
     res.append(rating)
     res.append(str(tasks_today))
-    return res
+    return res, solved_str
