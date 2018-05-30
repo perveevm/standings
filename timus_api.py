@@ -96,7 +96,7 @@ def get_info(judge_id, solved_str):
 
     solved_str = ' '.join(str(i) for i in solved)
 
-    res.append(str(int(tasks) + tasks_today))
+    res.append(str(int(tasks)))
     res.append(rating)
     res.append(str(tasks_today))
     return res, solved_str
